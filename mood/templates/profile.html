@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Mood | {{ request.user.username }}{% endblock %}
+{% block content %}
+    <div class="container p-5">
+        <h1 class="display-1">{{ request.user.username }}</h1>
+    </div>
+    <hr class="my-0" style="color: white;">
+
+{% endblock %}

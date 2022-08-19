@@ -29,10 +29,17 @@
                 <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Поиск..." aria-label="Search">
             </form>
 
+            {% if request.user.is_authenticated %}
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Войти</button>
+                <a href="{% url 'profile' %}"><button type="button" class="btn btn-light">{{ request.user.username }}</button></a>
+                <a href="{% url 'logout' %}" style="text-decoration: none; color: white;"><button type="button" class="btn btn-danger">Выйти</a></button></a>
+            </div>
+            {% else %}
+            <div class="text-end">
+                <a href="{% url 'login' %}"><button type="button" class="btn btn-outline-light me-2">Войти</button></a>
                 <a href="{% url 'register' %}" style="text-decoration: none; color: black;"><button type="button" class="btn btn-warning">Зарегистрироваться</a></button></a>
             </div>
+            {% endif %}
             </div>
         </div>
     </header>
