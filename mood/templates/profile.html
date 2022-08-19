@@ -2,8 +2,18 @@
 {% block title %}Mood | {{ request.user.username }}{% endblock %}
 {% block content %}
     <div class="container p-5">
-        <h1 class="display-1">{{ request.user.username }}</h1>
+        <div class="flex">
+            <h1 class="display-1">{{ request.user.username }}</h1>
+            <div class="text-end">
+                <form action="{% url 'edit_profile' %}">
+                    <button class="btn btn-secondary">Изменить профиль</button>
+                </form>
+            </div>
+        </div>
     </div>
     <hr class="my-0" style="color: white;">
-
+    <div class="container p-5">
+        <p>Дата создания аккаунта - {{ request.user.date_joined }}</p>
+    </div>
+    
 {% endblock %}

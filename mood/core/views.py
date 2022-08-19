@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
 from .forms import RegiserUserForm, LoginUserForm
+from django.contrib.auth.decorators import login_required   
+from .models import Profile
 
 
 def get_main_page(request):
@@ -42,11 +44,14 @@ def logout_user(request):
     return redirect('login')
 
 
+@login_required 
 def get_user_profile(request):
-    if not request.user.is_authenticated:
-        raise Http404
-    else:
-        return render(request, 'profile.html')
+    return render(request, 'profile.html')
+
+
+@login_required
+def edit_user_profile(request):
+    return render(request, 'edit_profile.html') 
 
 
 def handler404(request):

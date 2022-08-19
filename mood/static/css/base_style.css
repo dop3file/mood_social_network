@@ -11,6 +11,10 @@ h1, p, h2, h3, h4, h5 {
     color: whitesmoke;
 }
 
+.white-text {
+    color: white;
+}
+
 p {
     color: white;
 }
@@ -44,3 +48,8 @@ div.center-info p {
     margin-right: -50%;
     transform: translate(-50%, -50%) 
 }
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+ }

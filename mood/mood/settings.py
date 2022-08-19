@@ -129,4 +129,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 
 handler404 = 'core.views.handler404'
-handler500 = 'core.views.handler500'
+handler500 = 'core.views.handler500'\
+
+MEDIA_ROOT = [BASE_DIR / "media"]
