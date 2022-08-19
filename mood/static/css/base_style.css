@@ -7,8 +7,17 @@ body {
     background-color: #212529;
     font-family: 'Inter', sans-serif;
 }
-h1, p {
+h1, p, h2, h3, h4, h5 {
     color: whitesmoke;
+}
+
+p {
+    color: white;
+}
+
+.form-input {
+    color: white;
+    background-color: red;
 }
 
 #logo-text {

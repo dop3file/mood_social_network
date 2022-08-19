@@ -10,40 +10,22 @@
                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
   
                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 text-white">Регистрация</p>
-  
-                  <form class="mx-1 mx-md-4" method="POST">
+                  
+                  <form class="mx-1 mx-md-4" action="" method="POST">
                     {% csrf_token %}
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="text" id="form3Example1c" class="form-control" />
-                        <label class="form-label text-white" for="form3Example1c">Никнейм</label>
-                      </div>
-                    </div>
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="email" id="form3Example3c" class="form-control" />
-                        <label class="form-label text-white" for="form3Example3c">Email</label>
-                      </div>
-                    </div>
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="password" id="form3Example4c" class="form-control" />
-                        <label class="form-label text-white" for="form3Example4c">Пароль</label>
-                      </div>
-                    </div>
-
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="button" class="btn btn-primary btn-lg">Регистрация</button>
-                    </div>
-  
+                    
+                      {% for field in form %}
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            {{ field }}
+                            <label class="form-label text-white" for="form3Example3c">{{ field.label }}</label>
+                          </div>
+                        </div>
+                        <h5 style="color: white;">{{ field.errors }}</h5>
+                      {% endfor %}  
+                    <center><button type="submit" class="btn btn-primary btn-lg">Регистрация</button></center>
                   </form>
-  
                 </div>
               </div>
             </div>
@@ -52,3 +34,43 @@
     </div>
   </section>
 {% endblock %}
+
+
+
+
+
+
+<form class="mx-1 mx-md-4" action="" method="POST">
+  {% csrf_token %}
+
+  <div class="d-flex flex-row align-items-center mb-4">
+      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+      <div class="form-outline flex-fill mb-0">
+        <input type="text" id="form3Example1c" class="form-control" name="nickname" minlength="6" required/>
+        <label class="form-label text-white" for="form3Example1c">Никнейм</label>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-4">
+      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+      <div class="form-outline flex-fill mb-0">
+        <input type="email" id="form3Example3c" class="form-control" name="email" />
+        <label class="form-label text-white" for="form3Example3c">Email</label>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-4">
+      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+      <div class="form-outline flex-fill mb-0">
+        <input type="password" id="form3Example4c" class="form-control" name="password" minlength="6" required/>
+        <label class="form-label text-white" for="form3Example4c">Пароль</label>
+      </div>
+    </div>
+    
+  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+      <button type="button success" class="btn btn-primary btn-lg">Регистрация</button>
+  </div>
+  <div class="d-flex flex-row align-items-center mb-4">
+  <center><h5 style="color: #F92657">{{ error }}</h5></center>
+  </div>
+</form>
