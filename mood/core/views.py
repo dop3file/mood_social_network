@@ -19,21 +19,3 @@ class RegisterUser(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return dict(list(context.items()))
-
-
-def register(request):
-    context = {}
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            return HttpResponse('good')
-        print(dir(form))
-        context['form'] = form
-        context['error'] = 'Попробуйте изменить пароль или никнейм'
-    
-    else:
-        context['form'] = RegistrationForm()
-
-
-    return render(request, 'register.html', context=context)
