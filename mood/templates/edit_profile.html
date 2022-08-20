@@ -3,11 +3,17 @@
 {% block content %}
 <div class="container">
     <h1>Изменение профиля</h1>
-    <form action="">
-        <label for="exampleFormControlInput1" class="form-label white-text"></label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Имя">
-        <label for="formFile" class="form-label white-text">Аватарка</label>
-        <input class="form-control" type="file" id="formFile">
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <label for="exampleFormControlInput1" class="form-label white-text">{{ field.label }}</label>
+            {{ field }}
+            <br>
+        {% endfor %}
+        <br>
+        <button class="btn btn-success">Отправить</button>
     </form>
+    
 </div>
+
 {% endblock %}

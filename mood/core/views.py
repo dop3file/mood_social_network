@@ -5,7 +5,7 @@ from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
-from .forms import RegiserUserForm, LoginUserForm
+from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 from django.contrib.auth.decorators import login_required   
 from .models import Profile
 
@@ -51,7 +51,19 @@ def get_user_profile(request):
 
 @login_required
 def edit_user_profile(request):
-    return render(request, 'edit_profile.html') 
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            first_name = form.cleaned_data['first_name']
+            avatar = form.cleaned_data['avatar']
+            return HttpResponse('200')
+        else:
+            return HttpResponse('400')
+    else:
+        context = {}
+        form = EditProfileForm
+        context['form'] = form
+        return render(request, 'edit_profile.html', context=context) 
 
 
 def handler404(request):

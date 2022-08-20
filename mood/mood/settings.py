@@ -131,4 +131,5 @@ LOGIN_REDIRECT_URL = '/'
 handler404 = 'core.views.handler404'
 handler500 = 'core.views.handler500'\
 
+MEDIA_URL = 'images/'
 MEDIA_ROOT = [BASE_DIR / "media"]
