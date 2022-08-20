@@ -1,2 +1,4 @@
-# mood_social_network
-mood - django social network
+# mood
+mood - социальная сеть на Django.
+
+
