@@ -11,6 +11,11 @@ h1, p, h2, h3, h4, h5 {
     color: whitesmoke;
 }
 
+.avatar {
+    width: 200px;
+    height: 200px;
+}
+
 .white-text {
     color: white;
 }

@@ -8,6 +8,7 @@ from django.contrib.auth import logout, login
 from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 from django.contrib.auth.decorators import login_required   
 from .models import Profile
+from django.contrib import messages
 
 
 def get_main_page(request):
@@ -46,24 +47,40 @@ def logout_user(request):
 
 @login_required 
 def get_user_profile(request):
-    return render(request, 'profile.html')
+    context = {}
+    context['profile'] = Profile.objects.filter(user=request.user).first()
+    return render(request, 'profile.html', context=context)
 
 
 @login_required
 def edit_user_profile(request):
+    context = {}
+
     if request.method == "POST":
         form = EditProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            first_name = form.cleaned_data['first_name']
-            avatar = form.cleaned_data['avatar']
-            return HttpResponse('200')
-        else:
-            return HttpResponse('400')
-    else:
-        context = {}
-        form = EditProfileForm
-        context['form'] = form
-        return render(request, 'edit_profile.html', context=context) 
+            try:
+                if Profile.objects.filter(user=request.user):
+                    profile = Profile.objects.get(user=request.user)
+                    profile.first_name = form.cleaned_data['first_name']
+                    profile.avatar = form.cleaned_data['avatar']
+                    profile.save()
+                    return redirect('index')
+                else:
+                    profile = Profile(
+                        user=request.user,
+                        first_name=form.cleaned_data['first_name'],
+                        avatar=form.cleaned_data['avatar']
+                    )
+                    profile.save()
+                    return redirect('index')
+            except ValueError:
+                messages.error(request, 'Попробуйте ещё раз')
+        
+    
+    form = EditProfileForm
+    context['form'] = form
+    return render(request, 'edit_profile.html', context=context) 
 
 
 def handler404(request):

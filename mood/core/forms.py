@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.files.images import get_image_dimensions
+from .models import Profile
 
 
 class RegiserUserForm(UserCreationForm):
@@ -22,12 +23,12 @@ class LoginUserForm(AuthenticationForm):
 
 class EditProfileForm(forms.Form):
     first_name = forms.CharField(
-                                label='Имя', 
-                                max_length=30,
-                                widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Имя', 'name': 'first_name'})
-                                )
-    file = forms.FileField(
+                            label='Имя', 
+                            max_length=30,
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Имя', 'name': 'first_name'})
+                            )
+    avatar = forms.FileField(
                             label='Аватарка', 
-                            widget=forms.FileInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Аватарка', 'name': 'file'})
+                            widget=forms.FileInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Аватарка', 'name': 'avatar'})
                             )
 

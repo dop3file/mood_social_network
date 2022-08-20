@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Mood | {{ request.user.username }}{% endblock %}
 {% block content %}
+    {% if profile %}
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" alt="" class="avatar">
+        {% endif %}
+    {% endif %}
     <div class="container p-5">
         <div class="flex">
             <h1 class="display-1">{{ request.user.username }}</h1>

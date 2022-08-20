@@ -3,7 +3,12 @@
 {% block content %}
 <div class="container">
     <h1>Изменение профиля</h1>
-    <form method="POST">
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
             <label for="exampleFormControlInput1" class="form-label white-text">{{ field.label }}</label>
