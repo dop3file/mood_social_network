@@ -64,16 +64,16 @@ def edit_user_profile(request):
                     profile = Profile.objects.get(user=request.user)
                     profile.first_name = form.cleaned_data['first_name']
                     profile.avatar = form.cleaned_data['avatar']
-                    profile.save()
-                    return redirect('index')
+                    
                 else:
                     profile = Profile(
                         user=request.user,
                         first_name=form.cleaned_data['first_name'],
                         avatar=form.cleaned_data['avatar']
                     )
-                    profile.save()
-                    return redirect('index')
+
+                profile.save()
+                return redirect('profile')
             except ValueError:
                 messages.error(request, 'Попробуйте ещё раз')
         

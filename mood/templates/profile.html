@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}Mood | {{ request.user.username }}{% endblock %}
 {% block content %}
-    {% if profile %}
-        {% if profile.avatar %}
-            <img src="{{ profile.avatar.url }}" alt="" class="avatar">
-        {% endif %}
-    {% endif %}
     <div class="container p-5">
         <div class="flex">
-            <h1 class="display-1">{{ request.user.username }}</h1>
+            <div class="row">
+                <div class="col-sm">
+                    {% if profile %}
+                        {% if profile.avatar %}
+                            <img src="{{ profile.avatar.url }}" alt="" class="avatar">
+                        {% endif %}
+                    {% endif %}
+                    <h1 class="display-1">@{{ request.user.username }}</h1>
+                </div>
+                <div class="col-sm h-100">
+                    <div class="container p-5">
+                        <p>Имя - <b>{{ profile.first_name }}</b></p>
+                        <p>Дата создания аккаунта - {{ request.user.date_joined }}</p>
+                    </div>
+                </div>
+              </div>
+            
             <div class="text-end">
                 <form action="{% url 'edit_profile' %}">
                     <button class="btn btn-secondary">Изменить профиль</button>
@@ -16,9 +27,4 @@
             </div>
         </div>
     </div>
-    <hr class="my-0" style="color: white;">
-    <div class="container p-5">
-        <p>Дата создания аккаунта - {{ request.user.date_joined }}</p>
-    </div>
-    
 {% endblock %}
