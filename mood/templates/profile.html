@@ -1,30 +1,57 @@
 {% extends 'base.html' %}
 {% block title %}Mood | {{ request.user.username }}{% endblock %}
 {% block content %}
-    <div class="container p-5">
-        <div class="flex">
-            <div class="row">
-                <div class="col-sm">
-                    {% if profile %}
-                        {% if profile.avatar %}
-                            <img src="{{ profile.avatar.url }}" alt="" class="avatar">
-                        {% endif %}
-                    {% endif %}
-                    <h1 class="display-1">@{{ request.user.username }}</h1>
-                </div>
-                <div class="col-sm h-100">
-                    <div class="container p-5">
-                        <p>Имя - <b>{{ profile.first_name }}</b></p>
-                        <p>Дата создания аккаунта - {{ request.user.date_joined }}</p>
-                    </div>
-                </div>
-              </div>
-            
-            <div class="text-end">
+<div class="content container mx-5">
+    <div class="row" id="myrow">
+          <div class="col-md">
+            <div class="col-xs-7">
+            <div class="pb-4">
+                {% if profile %}
+                  {% if profile.avatar %}
+                      <img src="{{ profile.avatar.url }}" alt="" class="rounded-circle avatar" data-holder-rendered="true">
+                  {% endif %}
+                {% endif %}
+            </div>
+            </div>
+            <h2 class="pb-2"><b>
+                {% if profile.first_name %}
+                {% if profile.surname %}
+                  {{ profile.first_name }} {{ profile.surname }}
+                {% else %}
+                  {{ profile.first_name }}
+                {% endif %}
+              {% else %}
+                Anonymous
+              {% endif %}
+            </b></h2>
+            <h4 class="pb-3">@{{ request.user.username }}</h4>
+            <div class="row mx-0">
+              <div class="p-2">
                 <form action="{% url 'edit_profile' %}">
                     <button class="btn btn-secondary">Изменить профиль</button>
                 </form>
+              </div>
+              <div class="p-2"><h5></h5></div>
             </div>
+          </div>
+
+          <div class="col ml-auto">
+            <div class="pb-3"><h1><b>Информация о пользователе</b></h1></div>
+            <div class="row mx-auto" style="width: 800px;">
+              <div class="card pb-3 m-2" style="width: 32rem; border: 0px;">
+                <div class="card-body">
+                  <p class="card-text" style="color: black;">Дата создания аккаунта - {{ request.user.date_joined }}</p>
+                </div>
+              </div>
+              <hr class="my-4" style="color: white;">
+              <div class="pb-3"><h1><b>Посты</b></h1></div>
+      
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  
+      
+  </div>
 {% endblock %}

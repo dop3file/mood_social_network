@@ -21,14 +21,24 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'password'}))
 
 
-class EditProfileForm(forms.Form):
+class EditProfileForm(forms.ModelForm):
     first_name = forms.CharField(
                             label='Имя', 
                             max_length=30,
                             widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Имя', 'name': 'first_name'})
                             )
+    surname = forms.CharField(
+                            label='Фамилия', 
+                            max_length=40,
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Фамилия', 'name': 'surname'})
+                            )
     avatar = forms.FileField(
                             label='Аватарка', 
                             widget=forms.FileInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Аватарка', 'name': 'avatar'})
                             )
+
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'surname', 'avatar']
+
 

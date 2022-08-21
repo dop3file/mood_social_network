@@ -63,23 +63,25 @@ def edit_user_profile(request):
                 if Profile.objects.filter(user=request.user):
                     profile = Profile.objects.get(user=request.user)
                     profile.first_name = form.cleaned_data['first_name']
+                    profile.surname = form.cleaned_data['surname']
                     profile.avatar = form.cleaned_data['avatar']
-                    
                 else:
                     profile = Profile(
                         user=request.user,
                         first_name=form.cleaned_data['first_name'],
+                        surname=form.cleaned_data['surname'],
                         avatar=form.cleaned_data['avatar']
                     )
-
                 profile.save()
                 return redirect('profile')
             except ValueError:
                 messages.error(request, 'Попробуйте ещё раз')
         
-    
+
     form = EditProfileForm
     context['form'] = form
+    context['profile'] = Profile.objects.filter(user=request.user).first()
+    print(dir(request.user))
     return render(request, 'edit_profile.html', context=context) 
 
 
