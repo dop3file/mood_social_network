@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import Http404
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
@@ -6,6 +7,7 @@ from django.contrib.auth import logout, login
 from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 from django.contrib.auth.decorators import login_required   
 from .models import Profile
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -48,8 +50,18 @@ def logout_user(request):
 def get_user_profile(request):
     context = {}
     context['profile'] = Profile.objects.filter(user=request.user).first()
+    context['user'] = request.user
     return render(request, 'profile.html', context=context)
 
+
+def get_public_profile(request, username):
+    context = {}
+    try:
+        context['user'] = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+        raise Http404
+    context['profile'] = Profile.objects.filter(user__username=username).first()
+    return render(request, 'profile.html', context=context)
 
 @login_required
 def edit_user_profile(request):
@@ -62,13 +74,14 @@ def edit_user_profile(request):
         except ObjectDoesNotExist:
             profile = Profile(user=request.user)
 
-        form = EditProfileForm(instance=profile, data=request.POST, files=request.FILES)
-        if form.is_valid():
-            try:
-                form.save()
-                return redirect('profile')
-            except ValueError:
-                messages.error(request, 'Попробуйте ещё раз')
+        try:
+            form = EditProfileForm(instance=profile, data=request.POST, files=request.FILES)
+            if form.is_valid():
+                    form.save()
+                    return redirect('profile')
+        except ValueError:
+            messages.error(request, 'Попробуйте ещё раз')
+            
 
     form = EditProfileForm
 

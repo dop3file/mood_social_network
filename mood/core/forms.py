@@ -52,9 +52,15 @@ class EditProfileForm(forms.ModelForm):
                     widget=forms.FileInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Аватарка', 'name': 'avatar'}),
                     required=False
                     )
+    vk_social_link = forms.CharField(
+                    label='VK',
+                    max_length=150,
+                    widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Ссылка на VK', 'name': 'vk_social_link'}),
+                    required=False
+                    )
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'surname', 'avatar']
+        fields = ['first_name', 'surname', 'avatar', 'vk_social_link']
 
 
