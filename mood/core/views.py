@@ -46,16 +46,7 @@ def logout_user(request):
     return redirect('login')
 
 
-@login_required 
-def get_user_profile(request):
-    context = {}
-    context['profile'] = Profile.objects.filter(user=request.user).first()
-    context['user'] = request.user
-    return render(request, 'profile.html', context=context)
-
-
 def get_public_profile(request, username):
-    print(username)
     context = {}
     try:
         context['user'] = User.objects.get(username=username)
@@ -66,7 +57,7 @@ def get_public_profile(request, username):
     
 
 @login_required
-def edit_user_profile(request):
+def edit_user_profile(request, username):
     context = {}
 
     if request.method == "POST":
@@ -79,8 +70,8 @@ def edit_user_profile(request):
         try:
             form = EditProfileForm(instance=profile, data=request.POST, files=request.FILES)
             if form.is_valid():
-                    form.save()
-                    return redirect('profile')
+                form.save()
+                return redirect('profile', username=request.user.username)
         except ValueError:
             messages.error(request, 'Попробуйте ещё раз')
             

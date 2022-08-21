@@ -32,7 +32,7 @@
 
             {% if request.user.is_authenticated %}
             <div class="text-end">
-                <a href="{% url 'profile' %}"><button type="button" class="btn btn-light">{{ request.user.username }}</button></a>
+                <a href="{% url 'profile' username=request.user.username %}"><button type="button" class="btn btn-light">{{ request.user.username }}</button></a>
                 <a href="{% url 'logout' %}" style="text-decoration: none; color: white;"><button type="button" class="btn btn-danger">Выйти</a></button></a>
             </div>
             {% else %}

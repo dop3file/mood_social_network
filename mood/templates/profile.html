@@ -29,7 +29,7 @@
             <div class="row mx-0">
               <div class="p-2">
                 {% if request.user.username == user.username %}
-                  <form action="{% url 'edit_profile' %}">
+                  <form action="{% url 'edit_profile' username=request.user.username %}">
                       <button class="btn btn-secondary">Изменить профиль</button>
                   </form>
                 {% endif %}
