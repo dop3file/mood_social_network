@@ -88,12 +88,12 @@ def edit_user_profile(request):
     if Profile.objects.filter(user=request.user).first():
         profile = Profile.objects.get(user=request.user)
         context['profile'] = Profile.objects.filter(user=request.user).first()
-        form = EditProfileForm(initial={'first_name': profile.first_name, 'surname': profile.surname})
+        form = EditProfileForm(initial={
+                                'first_name': profile.first_name, 
+                                'surname': profile.surname,
+                                'vk_social_link': profile.vk_social_link
+                                })
     
     context['form'] = form
     
-    return render(request, 'edit_profile.html', context=context) 
-
-
-def handler404(request):
-    return HttpResponse('hi')
+    return render(request, 'edit_profile.html', context=context)

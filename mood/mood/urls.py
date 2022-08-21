@@ -13,8 +13,8 @@ urlpatterns = [
     path('login/', views.LoginUser.as_view(), name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('profile/', views.get_user_profile, name='profile'),
-    path('profile/<slug:username>', views.get_public_profile, name='get_public'),
     path('profile/edit', views.edit_user_profile, name='edit_profile'),
+    path('profile/<slug:username>', views.get_public_profile, name='get_public'),
     path('admin/', admin.site.urls),
     path(
         "favicon.ico",
