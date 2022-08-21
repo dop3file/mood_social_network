@@ -25,16 +25,19 @@ class EditProfileForm(forms.ModelForm):
     first_name = forms.CharField(
                             label='Имя', 
                             max_length=30,
-                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Имя', 'name': 'first_name'})
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Имя', 'name': 'first_name'}),
+                            required=False
                             )
     surname = forms.CharField(
                             label='Фамилия', 
                             max_length=40,
-                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Фамилия', 'name': 'surname'})
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Фамилия', 'name': 'surname'}),
+                            required=False
                             )
     avatar = forms.FileField(
                             label='Аватарка', 
-                            widget=forms.FileInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Аватарка', 'name': 'avatar'})
+                            widget=forms.FileInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Аватарка', 'name': 'avatar'}),
+                            required=False
                             )
 
     class Meta:

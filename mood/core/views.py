@@ -9,6 +9,7 @@ from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 from django.contrib.auth.decorators import login_required   
 from .models import Profile
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def get_main_page(request):
@@ -57,31 +58,29 @@ def edit_user_profile(request):
     context = {}
 
     if request.method == "POST":
-        form = EditProfileForm(request.POST, request.FILES)
+
+        try:
+            profile = Profile.objects.get(user=request.user)
+        except ObjectDoesNotExist:
+            profile = Profile(user=request.user)
+
+        form = EditProfileForm(instance=profile, data=request.POST, files=request.FILES)
         if form.is_valid():
             try:
-                if Profile.objects.filter(user=request.user):
-                    profile = Profile.objects.get(user=request.user)
-                    profile.first_name = form.cleaned_data['first_name']
-                    profile.surname = form.cleaned_data['surname']
-                    profile.avatar = form.cleaned_data['avatar']
-                else:
-                    profile = Profile(
-                        user=request.user,
-                        first_name=form.cleaned_data['first_name'],
-                        surname=form.cleaned_data['surname'],
-                        avatar=form.cleaned_data['avatar']
-                    )
-                profile.save()
+                form.save()
                 return redirect('profile')
             except ValueError:
                 messages.error(request, 'Попробуйте ещё раз')
-        
 
     form = EditProfileForm
+
+    if Profile.objects.filter(user=request.user).first():
+        profile = Profile.objects.get(user=request.user)
+        context['profile'] = Profile.objects.filter(user=request.user).first()
+        form = EditProfileForm(initial={'first_name': profile.first_name, 'surname': profile.surname})
+    
     context['form'] = form
-    context['profile'] = Profile.objects.filter(user=request.user).first()
-    print(dir(request.user))
+    
     return render(request, 'edit_profile.html', context=context) 
 
 
