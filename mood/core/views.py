@@ -55,6 +55,7 @@ def get_user_profile(request):
 
 
 def get_public_profile(request, username):
+    print(username)
     context = {}
     try:
         context['user'] = User.objects.get(username=username)
@@ -62,6 +63,7 @@ def get_public_profile(request, username):
         raise Http404
     context['profile'] = Profile.objects.filter(user__username=username).first()
     return render(request, 'profile.html', context=context)
+    
 
 @login_required
 def edit_user_profile(request):
@@ -96,4 +98,4 @@ def edit_user_profile(request):
     
     context['form'] = form
     
-    return render(request, 'edit_profile.html', context=context)
+    return render(request, 'edit_profile.html', context=context) 
