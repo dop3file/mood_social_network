@@ -10,6 +10,8 @@ from .models import Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from posts.forms import PostForm
+from posts.models import Post
 
 
 def get_main_page(request):
@@ -46,13 +48,18 @@ def logout_user(request):
     return redirect('login')
 
 
-def get_public_profile(request, username):
+def get_profile(request, username):
     context = {}
     try:
         context['user'] = User.objects.get(username=username)
     except ObjectDoesNotExist:
         raise Http404
     context['profile'] = Profile.objects.filter(user__username=username).first()
+    if request.user.username == username:
+        context['post_form'] = PostForm()
+
+    context['posts'] = Post.objects.filter(user_id=User.objects.get(username=username).id).all()
+
     return render(request, 'profile.html', context=context)
     
 

@@ -41,17 +41,39 @@
           <div class="col ml-auto">
             <div class="pb-3"><h1><b>Информация о пользователе</b></h1></div>
             <div class="row mx-auto" style="width: 800px;">
-              <div class="card pb-3 m-2" style="width: 32rem; border: 0px;">
+              <div class="card" style="width: 18rem; background-color: #212529; border: 0px;">
                 <div class="card-body">
-                  <p class="card-text" style="color: black;">Последний раз заходил - <b>{% if user.last_login %}{{ user.last_login }}{% else %}N/A{% endif %}</b></p>
-                  <p class="card-text" style="color: black;">Дата создания аккаунта - <b>{{ user.date_joined }}</b></p>
+                  <p class="card-text">Последний раз заходил <br><b>{% if user.last_login %}{{ user.last_login }}{% else %}N/A{% endif %}</b></p>
+                  <p class="card-text">Дата создания аккаунта <br><b>{{ user.date_joined }}</b></p>
                   {% if profile.vk_social_link %}
                     <a href="{{ profile.vk_social_link }}"><img src="{% static 'images/vk.png' %}" style="width: 64px; height:64px;"></a>
                   {% endif %}
                 </div>
               </div>
               <hr class="my-4" style="color: white;">
-              <div class="pb-3"><h1><b>Посты</b></h1></div>
+                <div class="col ml-auto">
+                <h1><b>Посты</b></h1>
+                {% if post_form %}
+                  <form action="/add_post/" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in post_form %}
+                      {{ field }}
+                      <br>
+                    {% endfor %}
+                    <br>
+                    <button class="btn btn-success" type="submit">Отправить</button>
+                  </form>
+                {% endif %}
+                <br>
+                {% for post in posts %}
+                  <div class="card" style="width: 18rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
+                    <div class="card-body">
+                      <h5>{{ post.text }}</h5>
+                    </div>
+                  </div>
+                  <br>
+                {% endfor %}
+                </div>
       
             </div>
           </div>
