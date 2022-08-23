@@ -6,7 +6,7 @@
     <h1>Все посты</h1>
     <div class="container">
         {% for post in all_posts.object_list %}
-            <div class="card" style="width: 24rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
+            <div class="card" style="width: 40rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
                 <div class="card-body">
                 <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
                     <h5><a href="{% url 'profile' profile.user.username %}" style="text-decoration: none;">@{{ profile.user.username }}</a></h5>
