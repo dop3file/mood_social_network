@@ -16,7 +16,7 @@ class PostForm(forms.ModelForm):
                     )
     type_mood = forms.CharField(
         label='',
-        widget=forms.Select(choices=(('Белый','Белый'), ('Белый','Черный')), attrs={'class': 'custom-select mr-sm-2', 'id': 'inlineFormCustomSelect'}))
+        widget=forms.Select(choices=(('Белый','Белый'), ('Черный','Черный')), attrs={'class': 'form-select form-select-sm', 'id': 'inlineFormCustomSelect'}))
     
 
     class Meta:

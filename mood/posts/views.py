@@ -5,7 +5,6 @@ from .forms import PostForm
 from posts.models import Post
 
 
-@login_required
 def add_post(request):
     if request.method == 'POST':
         try:
