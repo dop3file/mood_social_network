@@ -1,26 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Mood | {{ user.username }}{% endblock %}
-{% block content %}
 {% load static %}
-<style>
-.text_white h4 {
-  color: white;
-}
-
-.text_black h5 {
-  color:black;
-}
-
-.text_white p {
-  color: white;
-}
-
-.text_black p {
-  color:black;
-}
-
-</style>
-
+{% block content %}
 <div class="content container mx-5">
     <div class="row" id="myrow">
           <div class="col-md">
@@ -106,7 +87,7 @@
                   <br>
                 {% endfor %}
                 </div>
-      
+              
             </div>
           </div>
         </div>
@@ -115,4 +96,12 @@
   
       
   </div>
+  {% if posts %}
+    <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
+      <div class="container text-center">
+        <small><a href="{% url 'all_posts' username=profile.user.username index_page=1%}" class="link-light">Все посты</a></small>
+      </div>
+    </footer>
+  {% endif %}
+
 {% endblock %}

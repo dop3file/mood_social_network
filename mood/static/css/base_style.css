@@ -59,3 +59,19 @@ div.center-info p {
     display: flex;
     justify-content: space-between;
  }
+
+ .text_white h4 {
+    color: white;
+  }
+  
+  .text_black h5 {
+    color:black;
+  }
+  
+  .text_white p {
+    color: white;
+  }
+  
+  .text_black p {
+    color:black;
+  }

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}All posts | {{ user.username }}{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1>Все посты</h1>
+    <div class="container">
+        {% for post in all_posts.object_list %}
+            <div class="card" style="width: 24rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
+                <div class="card-body">
+                <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                    <h5><a href="{% url 'profile' profile.user.username %}" style="text-decoration: none;">@{{ profile.user.username }}</a></h5>
+                    <p>{{ post.date_post }}</p>
+                    <h5>{{ post.text }}</h5>
+                </div>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="" style="height: 75%; width: 75%; max-width: 500px; max-height: 500px;">
+                {% endif %}
+                {% if post.user.username == request.user.username %}
+                <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                    <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;"></a>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if all_posts.has_previous %}{% else %}disabled{% endif %}">
+        <a class="page-link" href="{% if all_posts.has_previous %}{% url 'all_posts' username=user.username index_page=all_posts.previous_page_number %}{% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li class="page-item {% if all_posts.has_next %}{% else %}disabled{% endif %}">
+        <a class="page-link" href="{% if all_posts.has_next %}{% url 'all_posts' username=user.username index_page=all_posts.next_page_number %}{% endif %}">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+
+{% endblock %}
