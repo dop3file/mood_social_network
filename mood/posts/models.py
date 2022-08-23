@@ -8,3 +8,4 @@ class Post(models.Model):
     text = models.CharField(max_length=120)
     image = models.ImageField(upload_to=validate_post_image, null=True, blank=True)
     type_mood = models.BooleanField()
+    date_post = models.DateTimeField(auto_now_add=True, blank=True)

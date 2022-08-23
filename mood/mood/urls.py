@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 from django.conf import settings
@@ -9,7 +9,6 @@ from core import views as core_views
 from posts import views as posts_views
 
 
-
 urlpatterns = [
     path('', core_views.get_main_page, name='index'),
     path('register/', core_views.RegisterUser.as_view(), name='register'),
@@ -17,7 +16,7 @@ urlpatterns = [
     path('logout/', core_views.logout_user, name='logout'),
     path('profile/<slug:username>/', core_views.get_profile, name='profile'),
     path('profile/<slug:username>/profile_edit/', core_views.edit_user_profile, name='edit_profile'),
-    path('add_post/', posts_views.add_post, name='add_post'),
+    path('posts/', include('posts.urls')),
     path('admin/', admin.site.urls),
     path(
         "favicon.ico",

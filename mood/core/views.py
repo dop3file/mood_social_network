@@ -58,7 +58,7 @@ def get_profile(request, username):
     if request.user.username == username:
         context['post_form'] = PostForm()
 
-    context['posts'] = Post.objects.filter(user_id=User.objects.get(username=username).id).all()
+    context['posts'] = Post.objects.filter(user_id=User.objects.get(username=username).id).order_by('-date_post').all()[:5]
 
     return render(request, 'profile.html', context=context)
     

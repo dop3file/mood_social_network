@@ -2,6 +2,25 @@
 {% block title %}Mood | {{ user.username }}{% endblock %}
 {% block content %}
 {% load static %}
+<style>
+.text_white h4 {
+  color: white;
+}
+
+.text_black h5 {
+  color:black;
+}
+
+.text_white p {
+  color: white;
+}
+
+.text_black p {
+  color:black;
+}
+
+</style>
+
 <div class="content container mx-5">
     <div class="row" id="myrow">
           <div class="col-md">
@@ -53,6 +72,7 @@
               <hr class="my-4" style="color: white;">
                 <div class="col ml-auto">
                 <h1><b>Посты</b></h1>
+                <br>
                 {% if post_form %}
                   <form action="/add_post/" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -68,7 +88,19 @@
                 {% for post in posts %}
                   <div class="card" style="width: 18rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
                     <div class="card-body">
-                      <h5>{{ post.text }}</h5>
+                      <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                        <h5><a href="{% url 'profile' username=profile.user.username %}" style="text-decoration: none;">@{{ profile.user.username }}</a></h5>
+                        <p>{{ post.date_post }}</p>
+                        <h5>{{ post.text }}</h5>
+                      </div>
+                      {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="" style="height: 50%; width: 50%; max-width: 500px; max-height: 500px;">
+                      {% endif %}
+                      {% if post.user.username == request.user.username %}
+                      <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                        <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;"></a>
+                      </div>
+                      {% endif %}
                     </div>
                   </div>
                   <br>

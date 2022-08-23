@@ -24,3 +24,4 @@ def validate_vk_link(link: str):
     if link.startswith('vk.com/') or link.startswith('https://vk.com/'):
         return True
     raise ValueError
+    
