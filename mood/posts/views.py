@@ -42,8 +42,7 @@ def delete_post(request, post_id):
 def get_all_posts(request, username, index_page):
     context = {}
     try:
-        all_posts = Paginator(Post.objects.filter(user__username=username).order_by('-date_post').all(), 5)
-        context['all_posts'] = all_posts.page(index_page)
+        context['all_posts'] = Paginator(Post.objects.filter(user__username=username).order_by('-date_post').all(), 5).page(index_page)
         context['profile'] = Profile.objects.get(user__username=username)
         context['user'] = context['profile'].user
         
@@ -51,3 +50,9 @@ def get_all_posts(request, username, index_page):
         return HttpResponseBadRequest('status code - 404')
     
     return render(request, 'all_posts.html', context=context)
+
+
+def get_feed(request, index_page):
+    context = {}
+    context['all_posts'] = Paginator(Post.objects.order_by('-date_post').all(), 10).page(index_page)
+    return render(request, 'feed.html', context=context)

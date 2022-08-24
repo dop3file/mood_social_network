@@ -30,6 +30,8 @@ class RegisterUser(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+        profile = Profile(user=user)
+        profile.save()
         login(self.request, user)
         return redirect('index')
 

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Лента{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1>Лента</h1>
+    <hr class="border-2 border-top">
+    <div class="container">
+        <div class="container">
+            <div class="container">
+                <div class="container">
+                    {% for post in all_posts.object_list %}
+                        <div class="card" style="width: 40rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
+                            <div class="card-body">
+                            <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                                {% if profile.avatar %}
+                                  <div class="d-inline-block p-2"><img src="{{ profile.avatar.url }}" alt="" class="rounded-circle avatar" data-holder-rendered="true" style="width: 128px; height: 128px;"></div>
+                                {% endif %}
+                                <div class="d-inline-block p-2">
+                                  <h5><a href="{% url 'profile' username=post.user.username %}" style="text-decoration: none;">@{{ post.user.username }}</a></h5>
+                                </div>
+                                <p>{{ post.date_post }}</p>
+                                <h5>{{ post.text }}</h5>
+                            </div>
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="" style="height: 75%; width: 75%; max-width: 500px; max-height: 500px;">
+                            {% endif %}
+                            {% if post.user.username == request.user.username %}
+                            <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                                <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;"></a>
+                            </div>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item {% if all_posts.has_previous %}{% else %}disabled{% endif %}">
+                    <a class="page-link" href="{% if all_posts.has_previous %}{% url 'feed' index_page=all_posts.previous_page_number %}{% endif %}" tabindex="-1" aria-disabled="true">⬅️</a>
+                  </li>
+                  <li class="page-item {% if all_posts.has_next %}{% else %}disabled{% endif %}">
+                    <a class="page-link" href="{% if all_posts.has_next %}{% url 'feed' index_page=all_posts.next_page_number %}{% endif %}">➡️</a>
+                  </li>
+                </ul>
+              </nav>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
