@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}All posts | {{ user.username }}{% endblock %}
+{% block title %}Все посты | {{ user.username }}{% endblock %}
 {% load static %}
 {% block content %}
 <div class="container">
@@ -31,10 +31,10 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li class="page-item {% if all_posts.has_previous %}{% else %}disabled{% endif %}">
-        <a class="page-link" href="{% if all_posts.has_previous %}{% url 'all_posts' username=user.username index_page=all_posts.previous_page_number %}{% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+        <a class="page-link" href="{% if all_posts.has_previous %}{% url 'all_posts' username=user.username index_page=all_posts.previous_page_number %}{% endif %}" tabindex="-1" aria-disabled="true">⬅️</a>
       </li>
       <li class="page-item {% if all_posts.has_next %}{% else %}disabled{% endif %}">
-        <a class="page-link" href="{% if all_posts.has_next %}{% url 'all_posts' username=user.username index_page=all_posts.next_page_number %}{% endif %}">Next</a>
+        <a class="page-link" href="{% if all_posts.has_next %}{% url 'all_posts' username=user.username index_page=all_posts.next_page_number %}{% endif %}">➡️</a>
       </li>
     </ul>
   </nav>

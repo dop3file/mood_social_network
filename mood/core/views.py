@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponseBadRequest
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from posts.forms import PostForm
 from posts.models import Post
+from .utils import search_post
 
 
 def get_main_page(request):
@@ -96,4 +97,14 @@ def edit_user_profile(request, username):
     
     context['form'] = form
     
-    return render(request, 'edit_profile.html', context=context) 
+    return render(request, 'edit_profile.html', context=context)
+
+
+def search(request):
+    try:
+        context = {}
+        context['search_text'] = request.POST.get('search_text')
+        context['search_result'] = search_post(Post, context['search_text'])
+        return render(request, 'search_result.html', context=context)
+    except ValueError:
+        return HttpResponseBadRequest('no search text')

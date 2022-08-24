@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db.models import Q
 import os
 
 
@@ -24,4 +25,10 @@ def validate_vk_link(link: str):
     if link.startswith('vk.com/') or link.startswith('https://vk.com/'):
         return True
     raise ValueError
+
+
+def search_post(post_instance, search_text):
+    return post_instance.objects.filter(
+            Q(text__icontains=search_text) | Q(user__username__icontains=search_text)
+        )
     

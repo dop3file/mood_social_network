@@ -18,6 +18,7 @@ urlpatterns = [
     path('profile/<slug:username>/profile_edit/', core_views.edit_user_profile, name='edit_profile'),
     path('posts/', include('posts.urls')),
     path('admin/', admin.site.urls),
+    path('search/', core_views.search, name='search'),
     path(
         "favicon.ico",
         RedirectView.as_view(url=staticfiles_storage.url("favicon.ico")),

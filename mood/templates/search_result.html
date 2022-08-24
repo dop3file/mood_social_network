@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Поиск{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1>Результаты поиска({{ search_result.count }})</h1>
+    <div class="container">
+        <div class="container">
+            {% for post in search_result %}
+                <div class="card" style="width: 40rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
+                    <div class="card-body">
+                    <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                        <h5><a href="{% url 'profile' post.user.username %}" style="text-decoration: none;">@{{ post.user.username }}</a></h5>
+                        <p>{{ post.date_post }}</p>
+                        <h5>{{ post.text }}</h5>
+                    </div>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="" style="height: 75%; width: 75%; max-width: 500px; max-height: 500px;">
+                    {% endif %}
+                    {% if post.user.username == request.user.username %}
+                    <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                        <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;"></a>
+                    </div>
+                    {% endif %}
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
