@@ -27,8 +27,14 @@ def validate_vk_link(link: str):
     raise ValueError
 
 
+def validate_github_link(link: str):
+    if link.startswith('github.com/') or link.startswith('https://github.com/'):
+        return True
+    raise ValueError
+
+
 def search_post(post_instance, search_text):
     return post_instance.objects.filter(
             Q(text__icontains=search_text) | Q(user__username__icontains=search_text)
-        )
+        ).order_by('-date_post')
     

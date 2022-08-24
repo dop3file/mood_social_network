@@ -46,7 +46,14 @@
                   <p class="card-text">Последний раз заходил <br><b>{% if user.last_login %}{{ user.last_login }}{% else %}N/A{% endif %}</b></p>
                   <p class="card-text">Дата создания аккаунта <br><b>{{ user.date_joined }}</b></p>
                   {% if profile.vk_social_link %}
-                    <a href="{{ profile.vk_social_link }}"><img src="{% static 'images/vk.png' %}" style="width: 64px; height:64px;"></a>
+                    <div class="d-inline-block p-2">
+                      <a href="{{ profile.vk_social_link }}"><img src="{% static 'images/vk.png' %}" style="width: 64px; height:64px;"></a>
+                    </div>
+                    {% endif %}
+                  {% if profile.github_social_link %}
+                    <div class="d-inline-block p-2">
+                      <a href="{{ profile.github_social_link }}"><img src="{% static 'images/github.png' %}" style="width: 64px; height:64px;"></a>
+                    </div>
                   {% endif %}
                 </div>
               </div>
@@ -70,7 +77,12 @@
                   <div class="card" style="width: 28rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
                     <div class="card-body">
                       <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
-                        <h5><a href="{% url 'profile' username=profile.user.username %}" style="text-decoration: none;">@{{ profile.user.username }}</a></h5>
+                        {% if profile.avatar %}
+                          <div class="d-inline-block p-2"><img src="{{ profile.avatar.url }}" alt="" class="rounded-circle avatar" data-holder-rendered="true" style="width: 64px; height: 64px;;"></div>
+                        {% endif %}
+                        <div class="d-inline-block p-2">
+                          <h5><a href="{% url 'profile' username=profile.user.username %}" style="text-decoration: none;">@{{ profile.user.username }}</a></h5>
+                        </div>
                         <p>{{ post.date_post }}</p>
                         <h5><b>{{ post.text }}</b></h5>
                       </div>

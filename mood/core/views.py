@@ -92,7 +92,8 @@ def edit_user_profile(request, username):
         form = EditProfileForm(initial={
                                 'first_name': profile.first_name, 
                                 'surname': profile.surname,
-                                'vk_social_link': profile.vk_social_link
+                                'vk_social_link': profile.vk_social_link,
+                                'github_social_link': profile.github_social_link
                                 })
     
     context['form'] = form

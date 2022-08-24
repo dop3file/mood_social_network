@@ -53,14 +53,20 @@ class EditProfileForm(forms.ModelForm):
                     required=False
                     )
     vk_social_link = forms.CharField(
-                    label='VK',
-                    max_length=150,
-                    widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Ссылка на VK', 'name': 'vk_social_link'}),
-                    required=False
+                        label='VK',
+                        max_length=150,
+                        widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Ссылка на VK', 'name': 'vk_social_link'}),
+                        required=False
+                    )
+    github_social_link = forms.CharField(
+                            label='Github',
+                            max_length=150,
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Ссылка на VK', 'name': 'vk_social_link'}),
+                            required=False
                     )
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'surname', 'avatar', 'vk_social_link']
+        fields = ['first_name', 'surname', 'avatar', 'vk_social_link', 'github_social_link']
 
 

@@ -9,7 +9,12 @@
             <div class="card" style="width: 40rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
                 <div class="card-body">
                 <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
-                    <h5><a href="{% url 'profile' profile.user.username %}" style="text-decoration: none;">@{{ profile.user.username }}</a></h5>
+                    {% if profile.avatar %}
+                      <div class="d-inline-block p-2"><img src="{{ profile.avatar.url }}" alt="" class="rounded-circle avatar" data-holder-rendered="true" style="width: 128px; height: 128px;"></div>
+                    {% endif %}
+                    <div class="d-inline-block p-2">
+                      <h5><a href="{% url 'profile' username=profile.user.username %}" style="text-decoration: none;">@{{ profile.user.username }}</a></h5>
+                    </div>
                     <p>{{ post.date_post }}</p>
                     <h5>{{ post.text }}</h5>
                 </div>
