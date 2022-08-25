@@ -14,9 +14,20 @@ from posts.forms import PostForm
 from posts.models import Post
 from .utils import search_post
 
+from datetime import datetime
+
 
 def get_main_page(request):
-    return render(request, 'index.html')
+    context = {}
+    hour = datetime.now().hour
+    if 13 > hour >= 6 :
+        context['welcome_msg'] = 'Доброе утро'
+    elif 18 > hour >= 13:
+        context['welcome_msg'] = 'Добрый день'
+    else:
+        context['welcome_msg'] = 'Добрый вечер'
+        
+    return render(request, 'index.html', context=context)
 
 
 class RegisterUser(CreateView):

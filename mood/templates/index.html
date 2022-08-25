@@ -3,7 +3,7 @@
 {% block content %}
 {% if request.user.is_authenticated %}
 <div class="container">
-    <h1>Приветсвую тебя, {{ request.user.username }}</h1>
+    <h1>{{ welcome_msg }}, {{ request.user.username }}</h1>
 </div>
 {% else %}
     <div class="center-info">
