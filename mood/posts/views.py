@@ -8,6 +8,7 @@ from posts.models import Post
 from core.models import Profile
 
 
+@login_required
 def add_post(request):
     if request.method == 'POST':
         try:
@@ -27,6 +28,7 @@ def add_post(request):
         return redirect('index')
 
 
+@login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if post.user_id == request.user.id:
@@ -55,6 +57,7 @@ def get_feed(request, index_page):
     return render(request, 'feed.html', context=context)
 
 
+@login_required
 def like_post(request, post_id):
     try:
         post = get_object_or_404(Post, id=post_id)
@@ -69,3 +72,15 @@ def like_post(request, post_id):
     except TypeError:
         next = request.POST.get('next', '/')
         return redirect(next)
+
+
+@login_required
+def get_saved_posts(request):
+    context = {}
+    try:
+        context['saved_posts'] = [Post.objects.get(id=post.post_id) for post in Post.likes.through.objects.filter(user_id=request.user.id)]
+        context['saved_posts'].reverse()
+    except ObjectDoesNotExist:
+        context['saved_posts'] = []
+
+    return render(request, 'saved.html', context=context)
