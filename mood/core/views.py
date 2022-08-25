@@ -7,6 +7,7 @@ from django.contrib.auth import logout, login
 from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 from django.contrib.auth.decorators import login_required   
 from .models import Profile, Interest
+from django.db.models import Count
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -15,6 +16,7 @@ from posts.models import Post
 from .utils import search_post
 
 from datetime import datetime
+from collections import Counter
 
 
 def get_main_page(request):
@@ -26,7 +28,8 @@ def get_main_page(request):
         context['welcome_msg'] = 'Добрый день'
     else:
         context['welcome_msg'] = 'Добрый вечер'
-        
+    context['top_popular_posts'] = Counter([Post.objects.get(id=post.post_id) for post in Post.likes.through.objects.annotate(Count('post_id')).order_by('-post_id__count')[:5]])
+
     return render(request, 'index.html', context=context)
 
 
@@ -121,6 +124,7 @@ def delete_interest(request, interest_id):
     interest.delete()
     return redirect('edit_profile')
 
+
 def search(request):
     try:
         context = {}
@@ -129,3 +133,16 @@ def search(request):
         return render(request, 'search_result.html', context=context)
     except ValueError:
         return HttpResponseBadRequest('no search text')
+
+
+def follow(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    profile = get_object_or_404(Profile, user=request.user)
+    if request.user.id == user_id:
+        return redirect('index')
+    if profile in user.subscribers.all():
+        user.subscribers.remove(profile)
+    else:
+        user.subscribers.add(profile)
+
+    return redirect('profile', username=user.username)

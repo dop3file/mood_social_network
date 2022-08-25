@@ -13,6 +13,7 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=validate_profile_avatar, null=True, blank=True)
     vk_social_link = models.CharField(max_length=150, null=True, blank=True, validators=[validate_vk_link])
     github_social_link = models.CharField(max_length=150, null=True, blank=True, validators=[validate_github_link])
+    subscribers = models.ManyToManyField(User, related_name='subscribers')
 
 
 class Interest(models.Model):

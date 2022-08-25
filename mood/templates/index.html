@@ -5,6 +5,19 @@
 <div class="container">
     <h1>{{ welcome_msg }}, {{ request.user.username }}</h1>
 </div>
+<hr style="color: white;">
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+        <h4>Топ 5 самых популярных постов</h4>
+        {% for post in top_popular_posts %}
+            {% include 'post.html' %}
+        {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
 {% else %}
     <div class="center-info">
         <center>

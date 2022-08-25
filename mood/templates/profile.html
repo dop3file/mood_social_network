@@ -32,9 +32,22 @@
                   <form action="{% url 'edit_profile' %}">
                       <button class="btn btn-secondary">Изменить профиль</button>
                   </form>
+                {% else %}
+                  {% if request.user.is_authenticated %}
+                    <form action="{% url 'follow' user_id=user.id %}">
+                      {% for profile_ in user.subscribers.all %}
+                        {% if profile.user.id == profile.user_id %}
+                        <button class="btn btn-danger">Отписаться</button>
+                        {% endif %}
+                      {% empty %}
+                        <button class="btn btn-success">Подписаться</button>
+                      {% endfor %}
+                      
+                    </form>
+                  {% endif %}
                 {% endif %}
               </div>
-              <div class="p-2"><h5></h5></div>
+              <div class="p-2"><h5>Подписчики - {{ user.subscribers.all.count }}</h5></div>
             </div>
           </div>
 

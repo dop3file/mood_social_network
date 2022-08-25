@@ -17,6 +17,7 @@ urlpatterns = [
     path('profile/profile_edit/', core_views.edit_user_profile, name='edit_profile'),
     path('profile/<slug:username>/', core_views.get_profile, name='profile'),
     path('delete_interest/<int:interest_id>', core_views.delete_interest, name='delete_interest'),
+    path('follow/<int:user_id>', core_views.follow, name='follow'),
     path('posts/', include('posts.urls')),
     path('feed/<int:index_page>/', posts_views.get_feed, name='feed'),
     path('admin/', admin.site.urls),

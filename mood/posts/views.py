@@ -68,6 +68,8 @@ def like_post(request, post_id):
         else:
             post.likes.add(request.user)
         next = request.POST.get('next', '/')
+        if next == '/search/':
+            return redirect('get_post', post_id=post_id)
         return redirect(next)
     except TypeError:
         next = request.POST.get('next', '/')
