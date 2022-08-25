@@ -8,16 +8,19 @@
         <div class="d-inline-block p-2">
         <h5><a href="{% url 'profile' username=post.user.username %}" style="text-decoration: none;">@{{ post.user.username }}</a></h5>
         </div>
-        <p>{{ post.date_post }}</p>
+        <a href="{% url 'get_post' post_id=post.id %}" style="text-decoration: none;"><p>{{ post.date_post }}</p></a>
         <h5><b>{{ post.text }}</b></h5>
     </div>
     {% if post.image %}
         <img src="{{ post.image.url }}" alt="" style="height: 75%; width: 75%; max-width: 500px; max-height: 500px;">
     {% endif %}
     {% if post.user.username == request.user.username %}
-    <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
-        <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;"></a>
-    </div>
+        <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+            <p class="d-inline {% if post.type_mood %}text_white{% else %}text_black{% endif %}">Лайки - {{ post.likes.count }}</p>
+        </div>
+        <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+            <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;" class="d-inline"></a>
+        </div>
     {% else %}
         {% if request.user.is_authenticated %}
         <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">

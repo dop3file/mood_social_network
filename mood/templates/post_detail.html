@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Пост {{ post.user.username }}{% endblock %}
+{% block content %}
+    <center>
+        <h1>Пост</h1>
+        <br>
+        {% load static %}
+        <div class="card" style="width: 28rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
+            <div class="card-body">
+                <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                    {% if profile.avatar %}
+                        <div class="d-inline-block p-2"><img src="{{ profile.avatar.url }}" alt="" class="rounded-circle avatar" data-holder-rendered="true" style="width: 64px; height: 64px;;"></div>
+                    {% endif %}
+                    <div class="d-inline-block p-2">
+                    <h5><a href="{% url 'profile' username=post.user.username %}" style="text-decoration: none;">@{{ post.user.username }}</a></h5>
+                    </div>
+                    <a href="{% url 'get_post' post_id=post.id %}" style="text-decoration: none;"><p>{{ post.date_post }}</p></a>
+                    <h5><b>{{ post.text }}</b></h5>
+                </div>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="" style="height: 75%; width: 75%; max-width: 500px; max-height: 500px;">
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        <br>
+    </center>
+    <center>
+        {% if post.user.username == request.user.username %}
+            <div class="text-white">
+                <p class="d-inline {% if post.type_mood %}text_white{% else %}text_black{% endif %}">Лайки - {{ post.likes.count }}</p>
+            </div>
+            <div class="text-white">
+                <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;" class="d-inline"></a>
+            </div>
+            {% else %}
+            {% if request.user.is_authenticated %}
+            <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                <form action="{% url 'like_post' post_id=post.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit" style="background: none; border:0;"><img src="{% static 'images/like.png' %}" alt="" style="width: 32px; height: 32px;"></button>
+                </form>
+                <p class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">{{ post.likes.count }}</p>
+            </div>
+            {% endif %}
+        {% endif %}
+    </center>
+
+
+{% endblock %}

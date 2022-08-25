@@ -84,3 +84,9 @@ def get_saved_posts(request):
         context['saved_posts'] = []
 
     return render(request, 'saved.html', context=context)
+
+
+def get_post(request, post_id):
+    context = {}
+    context['post'] = get_object_or_404(Post, id=post_id)
+    return render(request, 'post_detail.html', context=context)
