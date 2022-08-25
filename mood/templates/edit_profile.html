@@ -15,6 +15,15 @@
             {{ field }}
             <br>
         {% endfor %}
+        {% if interest %}
+            <h1>Интересы</h1>
+        {% endif %}
+        {% for interest in interests %}
+        <div class="d-inline-block">
+            <a href="{% url 'delete_interest' interest_id=interest.id %}"><h5>{{ interest.title }} {% if interest != interests.last %}●{% endif %}</h5></a>
+        </div>
+        {% endfor %}
+        <br>
         <br>
         <button class="btn btn-success">Отправить</button>
     </form>

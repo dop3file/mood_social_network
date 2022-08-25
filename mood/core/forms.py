@@ -64,6 +64,12 @@ class EditProfileForm(forms.ModelForm):
                             widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Ссылка на VK', 'name': 'vk_social_link'}),
                             required=False
                     )
+    interest = forms.CharField(
+                            label='Интересы',
+                            max_length=40,
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlInput1', 'placeholder': 'Введите свои интересы', 'name': 'interests'}),
+                            required=False
+    )
 
     class Meta:
         model = Profile

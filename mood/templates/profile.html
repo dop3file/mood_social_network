@@ -29,7 +29,7 @@
             <div class="row mx-0">
               <div class="p-2">
                 {% if request.user.username == user.username %}
-                  <form action="{% url 'edit_profile' username=request.user.username %}">
+                  <form action="{% url 'edit_profile' %}">
                       <button class="btn btn-secondary">Изменить профиль</button>
                   </form>
                 {% endif %}
@@ -45,6 +45,7 @@
                 <div class="card-body">
                   <p class="card-text">Последний раз заходил <br><b>{% if user.last_login %}{{ user.last_login }}{% else %}N/A{% endif %}</b></p>
                   <p class="card-text">Дата создания аккаунта <br><b>{{ user.date_joined }}</b></p>
+                  <p class="card-text">Интересы <br><b>{% for interest in interests %}<p class="d-inline"> {{ interest.title }} {% if interest != interests.last %} ● {% endif %}</p>{% endfor %}</b></p>
                   {% if profile.vk_social_link %}
                     <div class="d-inline-block p-2">
                       <a href="{{ profile.vk_social_link }}"><img src="{% static 'images/vk.png' %}" style="width: 64px; height:64px;"></a>

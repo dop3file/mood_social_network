@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponseBadRequest
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
 from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 from django.contrib.auth.decorators import login_required   
-from .models import Profile
+from .models import Profile, Interest
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -53,11 +53,9 @@ def logout_user(request):
 
 def get_profile(request, username):
     context = {}
-    try:
-        context['user'] = User.objects.get(username=username)
-    except ObjectDoesNotExist:
-        raise Http404
+    context['user'] = get_object_or_404(User, username=username)
     context['profile'] = Profile.objects.filter(user__username=username).first()
+    context['interests'] = Interest.objects.filter(user_id=context['user'].id).all()
     if request.user.username == username:
         context['post_form'] = PostForm()
 
@@ -67,11 +65,11 @@ def get_profile(request, username):
     
 
 @login_required
-def edit_user_profile(request, username):
+def edit_user_profile(request):
     context = {}
+    context['interests'] = Interest.objects.filter(user_id=request.user.id).all()
 
     if request.method == "POST":
-
         try:
             profile = Profile.objects.get(user=request.user)
         except ObjectDoesNotExist:
@@ -80,6 +78,9 @@ def edit_user_profile(request, username):
         try:
             form = EditProfileForm(instance=profile, data=request.POST, files=request.FILES)
             if form.is_valid():
+                if form.cleaned_data['interest'] and len(context['interests']) != 3:
+                    interest = Interest(title=form.cleaned_data['interest'], user_id=request.user.id)
+                    interest.save()
                 form.save()
                 return redirect('profile', username=request.user.username)
         except ValueError:
@@ -102,6 +103,12 @@ def edit_user_profile(request, username):
     
     return render(request, 'edit_profile.html', context=context)
 
+
+@login_required
+def delete_interest(request, interest_id):
+    interest = get_object_or_404(Interest, id=interest_id)
+    interest.delete()
+    return redirect('edit_profile')
 
 def search(request):
     try:
