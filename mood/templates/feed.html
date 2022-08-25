@@ -27,8 +27,19 @@
                             {% endif %}
                             {% if post.user.username == request.user.username %}
                             <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
-                                <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;"></a>
+                              <a href="{% url 'delete_post' post_id=post.id %}"><img src="{% static 'images/delete.png' %}" alt="" style="width: 32px; height: 32px;"></a>
                             </div>
+                            {% else %}
+                              {% if request.user.is_authenticated %}
+                              <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
+                                <form action="{% url 'like_post' post_id=post.id %}" method="POST">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="next" value="{{ request.path }}">
+                                  <button type="submit" style="background: none; border:0;"><img src="{% static 'images/like.png' %}" alt="" style="width: 32px; height: 32px;"></button>
+                                </form>
+                                <p class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">{{ post.likes.count }}</p>
+                              </div>
+                              {% endif %}
                             {% endif %}
                             </div>
                         </div>

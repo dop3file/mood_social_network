@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Mood{% endblock %}
 {% block content %}
+{% if request.user.is_authenticated %}
+<div class="container">
+    <h1>Приветсвую тебя, {{ request.user.username }}</h1>
+</div>
+{% else %}
     <div class="center-info">
         <center>
             <h1 id="logo-text">Mood<br></h1>
             <p>Социальная сеть для твоего настроения :)</p>
         </center>
     </div>
+{% endif %}
 {% endblock %}

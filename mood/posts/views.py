@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -28,10 +28,7 @@ def add_post(request):
 
 
 def delete_post(request, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-    except ObjectDoesNotExist:
-        return HttpResponseBadRequest('status code - 404')
+    post = get_object_or_404(Post, id=post_id)
     if post.user_id == request.user.id:
         post.delete()
         return redirect('profile', username=request.user.username)
@@ -56,3 +53,19 @@ def get_feed(request, index_page):
     context = {}
     context['all_posts'] = Paginator(Post.objects.exclude(user__username=request.user.username).order_by('-date_post').all(), 10).page(index_page)
     return render(request, 'feed.html', context=context)
+
+
+def like_post(request, post_id):
+    try:
+        post = get_object_or_404(Post, id=post_id)
+        if post.user.id == request.user.id:
+            return redirect('index')
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        next = request.POST.get('next', '/')
+        return redirect(next)
+    except TypeError:
+        next = request.POST.get('next', '/')
+        return redirect(next)

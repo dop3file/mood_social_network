@@ -9,3 +9,4 @@ class Post(models.Model):
     image = models.ImageField(upload_to=validate_post_image, null=True, blank=True)
     type_mood = models.BooleanField()
     date_post = models.DateTimeField(auto_now_add=True, blank=True)
+    likes = models.ManyToManyField(User, related_name='post_like')
