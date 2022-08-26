@@ -126,7 +126,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-mood/mood/migrations
-mood/media/images/*
-mood/media/posts/*
