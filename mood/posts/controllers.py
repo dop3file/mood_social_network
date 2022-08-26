@@ -8,6 +8,8 @@ from posts.models import Post
 from core.models import Profile
 from .forms import PostForm
 
+from notifications.controllers import like_notification
+
 
 def get_saved_posts_controller(request):
     try:
@@ -27,6 +29,8 @@ def like_post_controller(request, post_id):
         post.likes.remove(request.user)
     else:
         post.likes.add(request.user)
+        like_notification(request, post.user, post)
+        
 
 
 def get_feed_controller(request, index_page):

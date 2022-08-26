@@ -12,6 +12,8 @@ from .models import Profile, Interest
 from posts.forms import PostForm
 from .forms import EditProfileForm
 
+from notifications.controllers import follow_notification
+
 
 def main_page_controller(request):
     context = {}
@@ -63,6 +65,8 @@ def follow_controller(request, user_id):
         user.subscribers.remove(profile)
     else:
         user.subscribers.add(profile)
+        follow_notification(request, user)
+    
 
     return user
 

@@ -75,3 +75,18 @@ div.center-info p {
   .text_black p {
     color:black;
   }
+
+
+  .lines {
+    margin-bottom: -20px;
+  }
+
+  .custom-link {
+    text-decoration: none; 
+    color: #B2D4E9;
+  }
+
+  .custom-link:hover {
+    color: #B2D4E9;
+    text-decoration: underline;
+  }
