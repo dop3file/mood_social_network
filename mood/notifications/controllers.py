@@ -28,6 +28,5 @@ def like_notification(request, user: User, post: Post) -> None:
 
 
 def get_all_notifications(request):
-    notifications = list(Notification.objects.filter(user=request.user).all())
-    notifications.reverse()
+    notifications = list(Notification.objects.filter(user=request.user).order_by('-created').all())[:20]
     return notifications
