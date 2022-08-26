@@ -28,4 +28,6 @@ mood - социальная сеть на Django
   - **notifications** - модуль инкапсулирует в себе логику работы с уведомлениями
 
 
+# Потыкать можно здесь - http://moodnetwork.pythonanywhere.com/
+
 
