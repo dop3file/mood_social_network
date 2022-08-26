@@ -1,6 +1,11 @@
 from django.conf import settings
 from django.db.models import Q
+
+from PIL import Image, ImageDraw, ImageFont
+
 import os
+
+
 
 
 def delete_old_avatar(instance, file_name):
@@ -37,4 +42,15 @@ def search_post(post_instance, search_text):
     return post_instance.objects.filter(
             Q(text__icontains=search_text) | Q(user__username__icontains=search_text)
         ).order_by('-date_post')
+
+
+def generate_default_avatar(username):
+    avatar = Image.new('RGB', (500, 500), (33, 37, 41))
+    user_shape = ImageDraw.Draw(avatar)
+    user_shape.ellipse((0, 0, 500, 500), fill ='white')
+    font = ImageFont.truetype('static/m12.TTF', size=144)
+    user_shape.text((175, 180), username[0].upper(), font=font, fill='black')
+    avatar.save(f'media/images/{username}.jpg')
+
+    return f'images/{username}.jpg'
     

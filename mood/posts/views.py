@@ -53,7 +53,7 @@ def get_all_posts(request, username, index_page):
 
 def get_feed(request, index_page):
     context = {}
-    context['all_posts'] = Paginator(Post.objects.exclude(user__username=request.user.username).order_by('-date_post').all(), 10).page(index_page)
+    context['all_posts'] = Paginator(Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('-date_post').all(), 10).page(index_page)
     return render(request, 'feed.html', context=context)
 
 

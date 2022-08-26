@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from posts.forms import PostForm
 from posts.models import Post
-from .utils import search_post
+from .utils import search_post, generate_default_avatar
 
 from datetime import datetime
 from collections import Counter
@@ -45,6 +45,7 @@ class RegisterUser(CreateView):
     def form_valid(self, form):
         user = form.save()
         profile = Profile(user=user)
+        profile.avatar = generate_default_avatar(user.username)
         profile.save()
         login(self.request, user)
         return redirect('index')
