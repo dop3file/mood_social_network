@@ -60,7 +60,8 @@ def get_profile(request, username):
 @login_required
 def edit_user_profile(request):
     context = {}
-    context['interests'] = Interest.objects.filter(user_id=request.user.id).all()
+    context['profile'] = get_object_or_404(Profile, user=request.user)
+    context['interests'] = Interest.objects.filter(user=context['profile']).all()
 
     if request.method == "POST":
         try:

@@ -33,7 +33,7 @@ def get_profile_controller(request, username):
     context = {}
     context['user'] = get_object_or_404(User, username=username)
     context['profile'] = Profile.objects.filter(user__username=username).first()
-    context['interests'] = Interest.objects.filter(user_id=context['user'].id).all()
+    context['interests'] = Interest.objects.filter(user=context['profile']).all()
     if request.user.username == username:
         context['post_form'] = PostForm()
 
@@ -51,7 +51,7 @@ def edit_user_profile_controller(request, context):
     form = EditProfileForm(instance=profile, data=request.POST, files=request.FILES)
     if form.is_valid():
         if form.cleaned_data['interest'] and len(context['interests']) != 3:
-            interest = Interest(title=form.cleaned_data['interest'], user_id=request.user.id)
+            interest = Interest(title=form.cleaned_data['interest'], user=profile)
             interest.save()
         form.save()
 
