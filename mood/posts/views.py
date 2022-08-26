@@ -1,25 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.paginator import Paginator
-from .forms import PostForm
 from posts.models import Post
-from core.models import Profile
+
+from .controllers import *
 
 
 @login_required
 def add_post(request):
     if request.method == 'POST':
         try:
-            post_form = PostForm(instance=request.user, data=request.POST, files=request.FILES)
-            if post_form.is_valid():
-                post = Post(
-                    user=request.user, 
-                    text=post_form.cleaned_data['text'], 
-                    image=post_form.cleaned_data['image'], 
-                    type_mood=False if post_form.cleaned_data['type_mood'] == 'Белый' else True)
-                post.save()
+            add_post_controller(request)
             return redirect('profile', username=request.user.username)
         except ValueError:
             return redirect('profile', username=request.user.username)
@@ -41,11 +32,12 @@ def delete_post(request, post_id):
 def get_all_posts(request, username, index_page):
     context = {}
     try:
-        context['all_posts'] = Paginator(Post.objects.filter(user__username=username).order_by('-date_post').all(), 5).page(index_page)
-        context['profile'] = Profile.objects.get(user__username=username)
-        context['user'] = context['profile'].user
+        all_posts = get_all_posts_controller(request, username, index_page)
+        context['all_posts'] = all_posts['all_posts']
+        context['profile'] = all_posts['profile']
+        context['user'] = all_posts['user']
         
-    except ObjectDoesNotExist:
+    except ValueError:
         return HttpResponseBadRequest('status code - 404')
     
     return render(request, 'all_posts.html', context=context)
@@ -53,20 +45,14 @@ def get_all_posts(request, username, index_page):
 
 def get_feed(request, index_page):
     context = {}
-    context['all_posts'] = Paginator(Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('-date_post').all(), 10).page(index_page)
+    context['all_posts'] = get_feed_controller(request, index_page)
     return render(request, 'feed.html', context=context)
 
 
 @login_required
 def like_post(request, post_id):
     try:
-        post = get_object_or_404(Post, id=post_id)
-        if post.user.id == request.user.id:
-            return redirect('index')
-        if request.user in post.likes.all():
-            post.likes.remove(request.user)
-        else:
-            post.likes.add(request.user)
+        like_post_controller(request, post_id)
         next = request.POST.get('next', '/')
         if next == '/search/':
             return redirect('get_post', post_id=post_id)
@@ -80,9 +66,8 @@ def like_post(request, post_id):
 def get_saved_posts(request):
     context = {}
     try:
-        context['saved_posts'] = [Post.objects.get(id=post.post_id) for post in Post.likes.through.objects.filter(user_id=request.user.id)]
-        context['saved_posts'].reverse()
-    except ObjectDoesNotExist:
+        context['saved_posts'] = get_saved_posts_controller(request)
+    except ValueError:
         context['saved_posts'] = []
 
     return render(request, 'saved.html', context=context)

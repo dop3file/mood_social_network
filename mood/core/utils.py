@@ -6,8 +6,6 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 
 
-
-
 def delete_old_avatar(instance, file_name):
     for extension in settings.ALL_EXTENSIONS:
         try:

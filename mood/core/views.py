@@ -1,34 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
-from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 from django.contrib.auth.decorators import login_required   
-from .models import Profile, Interest
-from django.db.models import Count
-from django.contrib.auth.models import User
-from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
-from posts.forms import PostForm
-from posts.models import Post
-from .utils import search_post, generate_default_avatar
 
-from datetime import datetime
-from collections import Counter
+from .utils import search_post, generate_default_avatar
+from .controllers import *
+from .models import Profile, Interest
+from .forms import RegiserUserForm, LoginUserForm, EditProfileForm
 
 
 def get_main_page(request):
-    context = {}
-    hour = datetime.now().hour
-    if 13 > hour >= 6 :
-        context['welcome_msg'] = 'Доброе утро'
-    elif 18 > hour >= 13:
-        context['welcome_msg'] = 'Добрый день'
-    else:
-        context['welcome_msg'] = 'Добрый вечер'
-    context['top_popular_posts'] = Counter([Post.objects.get(id=post.post_id) for post in Post.likes.through.objects.annotate(Count('post_id')).order_by('-post_id__count')[:5]])
+    context = main_page_controller(request)
 
     return render(request, 'index.html', context=context)
 
@@ -67,14 +52,7 @@ def logout_user(request):
 
 
 def get_profile(request, username):
-    context = {}
-    context['user'] = get_object_or_404(User, username=username)
-    context['profile'] = Profile.objects.filter(user__username=username).first()
-    context['interests'] = Interest.objects.filter(user_id=context['user'].id).all()
-    if request.user.username == username:
-        context['post_form'] = PostForm()
-
-    context['posts'] = Post.objects.filter(user_id=User.objects.get(username=username).id).order_by('-date_post').all()[:5]
+    context = get_profile_controller(request, username)
 
     return render(request, 'profile.html', context=context)
     
@@ -86,21 +64,10 @@ def edit_user_profile(request):
 
     if request.method == "POST":
         try:
-            profile = Profile.objects.get(user=request.user)
-        except ObjectDoesNotExist:
-            profile = Profile(user=request.user)
-
-        try:
-            form = EditProfileForm(instance=profile, data=request.POST, files=request.FILES)
-            if form.is_valid():
-                if form.cleaned_data['interest'] and len(context['interests']) != 3:
-                    interest = Interest(title=form.cleaned_data['interest'], user_id=request.user.id)
-                    interest.save()
-                form.save()
-                return redirect('profile', username=request.user.username)
+            edit_user_profile_controller(request, context)
         except ValueError:
             messages.error(request, 'Попробуйте ещё раз')
-            
+        return redirect('profile', username=request.user.username)
 
     form = EditProfileForm
 
@@ -137,13 +104,6 @@ def search(request):
 
 
 def follow(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    profile = get_object_or_404(Profile, user=request.user)
-    if request.user.id == user_id:
-        return redirect('index')
-    if profile in user.subscribers.all():
-        user.subscribers.remove(profile)
-    else:
-        user.subscribers.add(profile)
+    user = follow_controller(request, user_id)
 
     return redirect('profile', username=user.username)
