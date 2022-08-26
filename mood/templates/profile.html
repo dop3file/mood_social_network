@@ -37,7 +37,7 @@
                     <form action="{% url 'follow' user_id=user.id %}">
                       {% for profile_ in user.subscribers.all %}
                         {% if profile.user.id == profile.user_id %}
-                        <button class="btn btn-danger">Отписаться</button>
+                          <button class="btn btn-danger">Отписаться</button>
                         {% endif %}
                       {% empty %}
                         <button class="btn btn-success">Подписаться</button>

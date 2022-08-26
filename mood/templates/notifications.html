@@ -5,7 +5,7 @@
     <h1>Уведомления</h1>
     <div class="container px-4">
         {% for notification in notifications %}
-        <p class="lines"><a href="{% url 'profile' username=notification.sender.username %}" class="custom-link">{{ notification.sender.username }}</a> {{ notification.action }} {% if notification.action == 'подписался' %}на вас{% else %} вашему <a href="{% url 'get_post' post_id=notification.post.id %}" class="custom-link">посту</a>{% endif %}</p>>
+        <p class="lines">{{ notification.created|date:"d M, h:s" }} ● <a href="{% url 'profile' username=notification.sender.username %}" class="custom-link">{{ notification.sender.username }}</a> {{ notification.action }} {% if notification.action == 'подписался' %}на вас{% else %} вашему <a href="{% url 'get_post' post_id=notification.post.id %}" class="custom-link">посту</a>{% endif %}</p>>
         {% endfor %}
     </div>
 </div>

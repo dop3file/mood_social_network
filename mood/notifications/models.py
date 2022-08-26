@@ -9,4 +9,4 @@ class Notification(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
     action = models.CharField(max_length=120)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True, related_name='post')
-    
+    created = models.DateTimeField(auto_now_add=True)
