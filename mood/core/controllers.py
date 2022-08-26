@@ -22,7 +22,7 @@ def main_page_controller(request):
         context['welcome_msg'] = 'Добрый день'
     else:
         context['welcome_msg'] = 'Добрый вечер'
-    context['top_popular_posts'] = Counter([Post.objects.get(id=post.post_id) for post in Post.likes.through.objects.annotate(Count('post_id')).order_by('-post_id__count')[:5]])
+    context['top_popular_posts'] = reversed(list(Counter([Post.objects.get(id=post.post_id) for post in Post.likes.through.objects.annotate(Count('post_id')).order_by('-post_id__count')[:5]])))
 
     return context
 
