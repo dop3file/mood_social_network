@@ -104,6 +104,7 @@ def search(request):
         return HttpResponseBadRequest('no search text')
 
 
+@login_required
 def follow(request, user_id):
     user = follow_controller(request, user_id)
 
