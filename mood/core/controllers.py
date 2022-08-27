@@ -36,8 +36,12 @@ def get_profile_controller(request, username):
     context['interests'] = Interest.objects.filter(user=context['profile']).all()
     if request.user.username == username:
         context['post_form'] = PostForm()
+    else:
+        context['self_profile'] = get_object_or_404(Profile, user=request.user)
+        context['is_follow'] = True if context['self_profile'] in context['user'].subscribers.all() else False
 
     context['posts'] = Post.objects.filter(user_id=User.objects.get(username=username).id).order_by('-date_post').all()[:5]
+    
 
     return context
 

@@ -101,6 +101,8 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+migrations
+
 # Environments
 .env
 .venv
@@ -125,9 +127,12 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+db.sqlite3
+
 # Pyre type checker
 .pyre/
 
 mood/mood/migrations
 mood/media/images/*
 mood/media/posts/*
+mood/db.sqlite3

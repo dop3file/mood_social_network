@@ -35,14 +35,11 @@
                 {% else %}
                   {% if request.user.is_authenticated %}
                     <form action="{% url 'follow' user_id=user.id %}">
-                      {% for profile_ in user.subscribers.all %}
-                        {% if profile.user.id == profile.user_id %}
+                      {% if is_follow %}
                           <button class="btn btn-danger">Отписаться</button>
-                        {% endif %}
-                      {% empty %}
+                      {% else %}
                         <button class="btn btn-success">Подписаться</button>
-                      {% endfor %}
-                      
+                      {% endif %}
                     </form>
                   {% endif %}
                 {% endif %}
