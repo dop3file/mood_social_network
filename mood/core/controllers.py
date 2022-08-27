@@ -31,14 +31,15 @@ def main_page_controller(request):
 
 def get_profile_controller(request, username):
     context = {}
-    context['user'] = get_object_or_404(User, username=username)
+    context['user'] = User.objects.filter(username=username).first()
     context['profile'] = Profile.objects.filter(user__username=username).first()
     context['interests'] = Interest.objects.filter(user=context['profile']).all()
     if request.user.username == username:
         context['post_form'] = PostForm()
     else:
-        context['self_profile'] = get_object_or_404(Profile, user=request.user)
-        context['is_follow'] = True if context['self_profile'] in context['user'].subscribers.all() else False
+        if request.user.is_authenticated:
+            context['self_profile'] = Profile.objects.filter(user=request.user).first()
+            context['is_follow'] = True if context['self_profile'] in context['user'].subscribers.all() else False
 
     context['posts'] = Post.objects.filter(user_id=User.objects.get(username=username).id).order_by('-date_post').all()[:5]
     
