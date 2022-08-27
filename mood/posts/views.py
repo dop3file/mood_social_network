@@ -29,6 +29,7 @@ def delete_post(request, post_id):
         return redirect('index') 
         
 
+@login_required
 def get_all_posts(request, username, index_page):
     context = {}
     try:
@@ -43,6 +44,7 @@ def get_all_posts(request, username, index_page):
     return render(request, 'all_posts.html', context=context)
 
 
+@login_required
 def get_feed(request, index_page):
     context = {}
     context['all_posts'] = get_feed_controller(request, index_page)
