@@ -63,13 +63,13 @@ def edit_user_profile_controller(request, context):
 
 def follow_controller(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    profile = get_object_or_404(Profile, user=request.user)
+    self_profile = get_object_or_404(Profile, user=request.user)
     if request.user.id == user_id:
         return redirect('index')
-    if profile in user.subscribers.all():
-        user.subscribers.remove(profile)
+    if self_profile in user.subscribers.all():
+        user.subscribers.remove(self_profile)
     else:
-        user.subscribers.add(profile)
+        user.subscribers.add(self_profile)
         follow_notification(request, user)
     
 
