@@ -55,13 +55,13 @@ def get_feed(request, index_page):
 def like_post(request, post_id):
     try:
         like_post_controller(request, post_id)
-        next = request.POST.get('next', '/')
-        if next == '/search/':
+        prev_url = request.POST.get('prev_url', '/')
+        if prev_url == '/search/':
             return redirect('get_post', post_id=post_id)
-        return redirect(next)
+        return redirect(prev_url)
     except TypeError:
-        next = request.POST.get('next', '/')
-        return redirect(next)
+        prev_url = request.POST.get('prev_url', '/')
+        return redirect(prev_url)
 
 
 @login_required
