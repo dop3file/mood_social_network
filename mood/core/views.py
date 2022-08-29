@@ -109,3 +109,11 @@ def follow(request, user_id):
     user = follow_controller(request, user_id)
 
     return redirect('profile', username=user.username)
+
+
+def handle_404(request, exception):
+    return render(request, '404.html')
+
+
+def handle_500(request, exception):
+    return render(request, '500.html')

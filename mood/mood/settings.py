@@ -27,9 +27,9 @@ logger.add("out.log", backtrace=True)
 SECRET_KEY = 'django-insecure-1tadmfno_sz$8goj8=7u=j$e-&x-v=jq8$if_p2ctk07xt_)v3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 

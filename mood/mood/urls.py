@@ -28,3 +28,6 @@ urlpatterns = [
         RedirectView.as_view(url=staticfiles_storage.url("favicon.ico")),
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handle404 = 'core.views.handle_404'
