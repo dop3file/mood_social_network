@@ -51,4 +51,4 @@ def generate_default_avatar(username):
     avatar.save(f'media/images/{username}.jpg')
 
     return f'images/{username}.jpg'
-    
+

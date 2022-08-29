@@ -15,6 +15,17 @@
             {% include 'post.html' %}
         {% endfor %}
         </div>
+        <div class="col-sm">
+            <h4>Админы</h4>
+            {% for user in admins %}
+                <a href="{% url 'profile' username=user.username %}" class="custom-link"><h1>{{ user.username }}</h1></a>
+            {% endfor %}
+            <hr>
+            <h4>Топ 5 самых популярных пользователей</h4>
+            {% for profile in top_popular_users %}
+                <a href="{% url 'profile' username=profile.0.user.username %}" class="custom-link"><h1>{{ profile.0.user.username }}</h1></a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 </div>

@@ -11,10 +11,15 @@ from posts.models import Post
 from .models import Profile, Interest
 from posts.forms import PostForm
 from .forms import EditProfileForm
+from loguru import logger
 
 from notifications.controllers import follow_notification
 
 
+logger.add("out.log", backtrace=True)
+
+
+@logger.catch
 def main_page_controller(request):
     context = {}
     hour = datetime.now().hour
@@ -25,10 +30,13 @@ def main_page_controller(request):
     else:
         context['welcome_msg'] = 'Добрый вечер'
     context['top_popular_posts'] = Counter([Post.objects.get(id=post.post_id) for post in Post.likes.through.objects.annotate(Count('post_id')).order_by('-post_id__count')[:5]])
+    context['top_popular_users'] = Counter(Profile.subscribers.through.objects.annotate(Count('user_id')).order_by('user_id__count')).most_common(5)
+    context['admins'] = User.objects.filter(is_staff=True).all()
 
     return context
 
 
+@logger.catch
 def get_profile_controller(request, username):
     context = {}
     context['user'] = User.objects.filter(username=username).first()
@@ -47,6 +55,7 @@ def get_profile_controller(request, username):
     return context
 
 
+@logger.catch
 def edit_user_profile_controller(request, context):
     try:
         profile = Profile.objects.get(user=request.user)
@@ -61,6 +70,7 @@ def edit_user_profile_controller(request, context):
         form.save()
 
 
+@logger.catch
 def follow_controller(request, user_id):
     user = get_object_or_404(User, id=user_id)
     self_profile = get_object_or_404(Profile, user=request.user)
@@ -72,7 +82,6 @@ def follow_controller(request, user_id):
         user.subscribers.add(self_profile)
         follow_notification(request, user)
     
-
     return user
 
 

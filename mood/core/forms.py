@@ -73,6 +73,6 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'surname', 'avatar', 'vk_social_link', 'github_social_link']
+        fields = ('first_name', 'surname', 'avatar', 'vk_social_link', 'github_social_link')
 
 
