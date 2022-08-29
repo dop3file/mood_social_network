@@ -11,12 +11,9 @@ from posts.models import Post
 from .models import Profile, Interest
 from posts.forms import PostForm
 from .forms import EditProfileForm
-from loguru import logger
+from mood.settings import logger
 
 from notifications.controllers import follow_notification
-
-
-logger.add("out.log", backtrace=True)
 
 
 @logger.catch
@@ -37,7 +34,7 @@ def main_page_controller(request):
 
 
 @logger.catch
-def get_profile_controller(request, username):
+def get_profile_controller(request, username: str):
     context = {}
     context['user'] = User.objects.filter(username=username).first()
     context['profile'] = Profile.objects.filter(user__username=username).first()
@@ -56,7 +53,7 @@ def get_profile_controller(request, username):
 
 
 @logger.catch
-def edit_user_profile_controller(request, context):
+def edit_user_profile_controller(request, context: dict):
     try:
         profile = Profile.objects.get(user=request.user)
     except ObjectDoesNotExist:

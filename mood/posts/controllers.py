@@ -21,7 +21,7 @@ def get_saved_posts_controller(request):
     return saved_posts
 
 
-def like_post_controller(request, post_id):
+def like_post_controller(request, post_id: int):
     post = get_object_or_404(Post, id=post_id)
     if post.user.id == request.user.id:
         return redirect('index')
@@ -33,12 +33,12 @@ def like_post_controller(request, post_id):
         
 
 
-def get_feed_controller(request, index_page):
+def get_feed_controller(request, index_page: int):
     feed = Paginator(Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('-date_post').all(), 10).page(index_page)
     return feed
 
 
-def get_all_posts_controller(request, username, index_page):
+def get_all_posts_controller(request, username: str, index_page: int):
     context = {}
     try:
         context['all_posts'] = Paginator(Post.objects.filter(user__username=username).order_by('-date_post').all(), 5).page(index_page)
