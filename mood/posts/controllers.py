@@ -37,7 +37,7 @@ def like_post_controller(request, post_id: int):
 
 def get_feed_controller(request, index_page: int, is_shuffle_feed=False):
     if is_shuffle_feed:
-        feed = list(Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('?').all())
+        feed = Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('?').all()[:10]
         return feed
 
     feed = Paginator(Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('-date_post').all(), 10).page(index_page)
