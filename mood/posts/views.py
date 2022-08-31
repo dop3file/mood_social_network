@@ -47,7 +47,10 @@ def get_all_posts(request, username, index_page):
 @login_required
 def get_feed(request, index_page):
     context = {}
-    context['all_posts'] = get_feed_controller(request, index_page)
+    context['is_shuffle_feed'] = bool(request.GET.get('shuffle', False))
+    context['all_posts'] = get_feed_controller(request, index_page, context['is_shuffle_feed'])
+    print(context['all_posts'])
+    
     return render(request, 'feed.html', context=context)
 
 

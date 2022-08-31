@@ -10,6 +10,8 @@ from .forms import PostForm
 
 from notifications.controllers import like_notification
 
+import random
+
 
 def get_saved_posts_controller(request):
     try:
@@ -33,8 +35,13 @@ def like_post_controller(request, post_id: int):
         
 
 
-def get_feed_controller(request, index_page: int):
+def get_feed_controller(request, index_page: int, is_shuffle_feed=False):
+    if is_shuffle_feed:
+        feed = list(Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('?').all())
+        return feed
+
     feed = Paginator(Post.objects.exclude(user__username=request.user.username).exclude(likes=request.user).order_by('-date_post').all(), 10).page(index_page)
+    
     return feed
 
 

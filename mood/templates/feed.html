@@ -3,28 +3,36 @@
 {% load static %}
 {% block content %}
 <div class="container">
-    <h1>Лента</h1>
+    <h1><a href="{% url 'feed' index_page=1 %}?shuffle=True" class="custom-link">Лента</a></h1>
     <hr class="border-2 border-top">
     <div class="container">
         <div class="container">
             <div class="container">
                 <div class="container">
+                  {% if is_shuffle_feed %}
+                    {% for post in all_posts %}
+                      {% include 'post.html' %}
+                    {% endfor %}
+                  {% else %}
                     {% for post in all_posts.object_list %}
                       {% include 'post.html' %}
                     {% endfor %}
+                  {% endif %}
                 </div>
             </div>
             
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item {% if all_posts.has_previous %}{% else %}disabled{% endif %}">
-                    <a class="page-link" href="{% if all_posts.has_previous %}{% url 'feed' index_page=all_posts.previous_page_number %}{% endif %}" tabindex="-1" aria-disabled="true">⬅️</a>
-                  </li>
-                  <li class="page-item {% if all_posts.has_next %}{% else %}disabled{% endif %}">
-                    <a class="page-link" href="{% if all_posts.has_next %}{% url 'feed' index_page=all_posts.next_page_number %}{% endif %}">➡️</a>
-                  </li>
-                </ul>
+            {% if not is_shuffle_feed %}
+              <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item {% if all_posts.has_previous %}{% else %}disabled{% endif %}">
+                      <a class="page-link" href="{% if all_posts.has_previous %}{% url 'feed' index_page=all_posts.previous_page_number %}{% endif %}" tabindex="-1" aria-disabled="true">⬅️</a>
+                    </li>
+                    <li class="page-item {% if all_posts.has_next %}{% else %}disabled{% endif %}">
+                      <a class="page-link" href="{% if all_posts.has_next %}{% url 'feed' index_page=all_posts.next_page_number %}{% endif %}">➡️</a>
+                    </li>
+                  </ul>
               </nav>
+            {% endif %}
         </div>
     </div>
 </div>

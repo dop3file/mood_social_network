@@ -31,3 +31,4 @@ urlpatterns = [
 
 
 handle404 = 'core.views.handle_404'
+handle500 = 'core.views.handle_500'
