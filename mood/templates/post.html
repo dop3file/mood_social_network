@@ -1,4 +1,14 @@
 {% load static %}
+<script>
+function like(url)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    console.log(`Like ${url}`);
+    return xmlHttp.responseText;
+}
+</script>
 <div class="card" style="width: 28rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
     <div class="card-body">
     <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">
@@ -17,11 +27,7 @@
     {% if request.user.is_authenticated %}
         {% if request.user.username != post.user.username %}
             <div class="text-end {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
-                <form action="{% url 'like_post' post_id=post.id %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="prev_url" value="{{ request.path }}">
-                <button type="submit" style="background: none; border:0;"><img src="{% static 'images/like.png' %}" alt="" style="width: 32px; height: 32px;"></button>
-                </form>
+                <button type="submit" style="background: none; border:0;" onclick="like('/posts/like/{{ post.id }}');"><img src="{% static 'images/like.png' %}" alt="" style="width: 32px; height: 32px;"></button>
             </div>
         {% endif %}
     {% endif %}

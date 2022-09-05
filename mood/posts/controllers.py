@@ -26,7 +26,7 @@ def get_saved_posts_controller(request):
 def like_post_controller(request, post_id: int):
     post = get_object_or_404(Post, id=post_id)
     if post.user.id == request.user.id:
-        return redirect('index')
+        return
     if request.user in post.likes.all():
         post.likes.remove(request.user)
     else:
