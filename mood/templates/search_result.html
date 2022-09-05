@@ -3,7 +3,11 @@
 {% load static %}
 {% block content %}
 <div class="container">
-    <h1>Результаты поиска({{ search_result.count }})</h1>
+    {% if search_result %}
+        <h1>Результаты поиска({{ search_result.count }})</h1>
+    {% else %}
+        <h1>Ничего не найдено :(</h1>
+    {% endif %}
     <div class="container">
         <div class="container">
             {% for post in search_result %}
