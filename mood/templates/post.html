@@ -1,14 +1,5 @@
 {% load static %}
-<script>
-function like(url)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url, false);
-    xmlHttp.send(null);
-    console.log(`Like ${url}`);
-    return xmlHttp.responseText;
-}
-</script>
+<script src="{% static 'js/script.js' %}"></script>
 <div class="card" style="width: 28rem; background-color: {% if post.type_mood %}black;{% else %}white;{% endif %}">
     <div class="card-body">
     <div class="{% if post.type_mood %}text_white{% else %}text_black{% endif %}">

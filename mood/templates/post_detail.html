@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Пост {{ post.user.username }}{% endblock %}
 {% block content %}
+{% load static %}
+<script src="{% static 'js/script.js' %}"></script>
     <center>
         <h1>Пост</h1>
         <br>
@@ -36,11 +38,7 @@
         {% else %}
             {% if request.user.is_authenticated %}
                 <div class="text-white {% if post.type_mood %}text_white{% else %}text_black{% endif %}">
-                    <form action="{% url 'like_post' post_id=post.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button type="submit" style="background: none; border:0;"><img src="{% static 'images/like.png' %}" alt="" style="width: 32px; height: 32px;"></button>
-                    </form>
+                    <button type="submit" style="background: none; border:0;" onclick="like('/posts/like/{{ post.id }}');"><img src="{% static 'images/like.png' %}" alt="" style="width: 32px; height: 32px;"></button>
                     <p class="text-white {% if post.type_mood %}text_white{% else %}text_black{% endif %}">{{ post.likes.count }}</p>
                 </div>
             {% endif %}
