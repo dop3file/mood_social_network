@@ -90,3 +90,9 @@ div.center-info p {
     color: #B2D4E9;
     text-decoration: underline;
   }
+
+
+  .centred-block {
+    text-align: center;
+    margin: 0 auto;
+  }

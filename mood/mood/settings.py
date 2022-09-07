@@ -142,4 +142,4 @@ handler500 = 'core.views.handler500'\
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-ALL_EXTENSIONS = ['jpg', 'png', 'gif', 'webp', 'webm', 'jfif', 'jpeg']
+ALL_EXTENSIONS = ['jpg', 'png', 'gif', 'webp', 'jfif', 'jpeg']

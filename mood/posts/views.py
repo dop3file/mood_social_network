@@ -29,7 +29,6 @@ def delete_post(request, post_id):
         return redirect('index') 
         
 
-@login_required
 def get_all_posts(request, username, index_page):
     context = {}
     try:
