@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Mood{% endblock %}
 {% block content %}
+{% load static %}
 {% if request.user.is_authenticated %}
 <div class="container">
     <h1>{{ welcome_msg }}, {{ request.user.username }}</h1>
@@ -16,7 +17,7 @@
         {% endfor %}
         </div>
         <div class="col-sm">
-            <h4>Админы 😎</h4>
+            <h4>Админы <img src="{% static 'admin.png' %}" alt="" class="admin-icon"></h4>
             {% for user in admins %}
                 <a href="{% url 'profile' username=user.username %}" class="custom-link"><h1>{{ user.username }}</h1></a>
             {% endfor %}

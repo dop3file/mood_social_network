@@ -96,3 +96,10 @@ div.center-info p {
     text-align: center;
     margin: 0 auto;
   }
+
+
+  
+  .admin-icon {
+    width: 32px;
+    height: 32px;
+  }
